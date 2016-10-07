@@ -41,5 +41,10 @@ namespace GM48TT
         {
             System.Diagnostics.Process.Start("http://www.yoyogames.com/gamemaker");
         }
+
+        private void partyParrot_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://cultofthepartyparrot.com/");
+        }
     }
 }

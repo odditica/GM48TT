@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormAbout));
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -44,17 +43,11 @@
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
+            this.partyParrot = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.partyParrot)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(12, 12);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(188, 79);
-            this.pictureBox1.TabIndex = 1;
-            this.pictureBox1.TabStop = false;
             // 
             // label1
             // 
@@ -104,11 +97,11 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Calibri", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label5.Location = new System.Drawing.Point(207, 76);
+            this.label5.Location = new System.Drawing.Point(206, 78);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(153, 15);
+            this.label5.Size = new System.Drawing.Size(156, 15);
             this.label5.TabIndex = 6;
-            this.label5.Text = "Written with       by Blokatt";
+            this.label5.Text = "Written with        by Blokatt";
             // 
             // label6
             // 
@@ -208,11 +201,33 @@
             this.label14.TabIndex = 15;
             this.label14.Text = "♥";
             // 
+            // partyParrot
+            // 
+            this.partyParrot.BackColor = System.Drawing.Color.Transparent;
+            this.partyParrot.Image = global::GM48TT.Properties.Resources.parrot;
+            this.partyParrot.Location = new System.Drawing.Point(280, 75);
+            this.partyParrot.Name = "partyParrot";
+            this.partyParrot.Size = new System.Drawing.Size(23, 19);
+            this.partyParrot.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.partyParrot.TabIndex = 16;
+            this.partyParrot.TabStop = false;
+            this.partyParrot.Click += new System.EventHandler(this.partyParrot_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(12, 12);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(188, 79);
+            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.TabStop = false;
+            // 
             // FormAbout
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(375, 146);
+            this.Controls.Add(this.partyParrot);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.label13);
@@ -235,6 +250,7 @@
             this.Name = "FormAbout";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "About GM48TT...";
+            ((System.ComponentModel.ISupportInitialize)(this.partyParrot)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -258,5 +274,6 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.PictureBox partyParrot;
     }
 }
