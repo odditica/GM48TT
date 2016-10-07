@@ -24,7 +24,7 @@ namespace GM48TT
         const int FILE_FORMAT_SMART = 1;
         const int FILE_FORMAT_JPG = 2;
         int ImageFileFormat = FILE_FORMAT_PNG;
-        String OutputFolder = Path.GetDirectoryName(Application.ExecutablePath).ToString();
+        string OutputFolder = Path.GetDirectoryName(Application.ExecutablePath).ToString();
         NotifyIcon trayIcon = new NotifyIcon();
         ContextMenu trayMenu = new ContextMenu();
         Timer captureTimer = new Timer();
@@ -102,7 +102,7 @@ namespace GM48TT
             }
         }
 
-        //self-explanatory
+        //pretty self-explanatory
         private void takeScreenshot()
         {
          
