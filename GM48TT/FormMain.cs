@@ -574,7 +574,7 @@ namespace GM48TT
             TIME FOR A RANT!
 
             Okay, here's what pisses me off about Windows 10 - on 7, this looked like a cute lil' white baloon, you could put an
-            icon in it, all that stuff. Whereas on 10, it's this ugly-ass rectangle that shows half the text the original one, 
+            icon in it, all that stuff. Whereas on 10, it's this ugly-ass rectangle that shows half the text the original one did, 
             doesn't look like a speech bubble so you can't tell where's it coming from and the text formatting is all messed up!
             It basically swooshes in from the outside of the screen all like "hey guys, the only way you can tell what application
             is this coming from is by reading the heading of this notification that will disappear in one se-".
