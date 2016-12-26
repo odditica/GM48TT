@@ -6,7 +6,7 @@ it automatically starts capturing.
 
 GM48TT was written in C# .NET 4.5 and should serve as a nice example of how NOT to organise code, as most of is contained within the main form class.
 
-Made for the gm(48) game jam - http://gm48.net/
+Made for the gm(48) game jam community - http://gm48.net/
 
 ![screenshot](https://dl.dropboxusercontent.com/u/60383548/gm48screenshot.png)
 
