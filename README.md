@@ -8,7 +8,7 @@ GM48TT was written in C# .NET 4.5 and should serve as a nice example of how NOT 
 
 Made for the gm(48) game jam community - http://gm48.net/
 
-![screenshot](http://dl.blokatt.net/img/gm48tt/scr_1_0_2.png)
+![Screenshot](http://dl.blokatt.net/img/gm48tt/scr_1_0_2.png)
 
 # Download?
 [Check the releases!](https://github.com/Blokatt/GM48TT/releases)
