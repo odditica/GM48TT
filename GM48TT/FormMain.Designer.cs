@@ -70,6 +70,7 @@
             this.buttonStartCapture = new System.Windows.Forms.Button();
             this.buttonForceCapture = new System.Windows.Forms.Button();
             this.pictureBoxProgress = new System.Windows.Forms.PictureBox();
+            this.labelWaiting = new System.Windows.Forms.Label();
             this.tabControlMain.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -91,7 +92,7 @@
             this.tabControlMain.Location = new System.Drawing.Point(12, 27);
             this.tabControlMain.Name = "tabControlMain";
             this.tabControlMain.SelectedIndex = 0;
-            this.tabControlMain.Size = new System.Drawing.Size(330, 388);
+            this.tabControlMain.Size = new System.Drawing.Size(330, 373);
             this.tabControlMain.TabIndex = 1;
             // 
             // tabPage2
@@ -104,7 +105,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(322, 362);
+            this.tabPage2.Size = new System.Drawing.Size(322, 347);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Capturing";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -321,9 +322,9 @@
             this.groupBox1.Controls.Add(this.buttonEstimate);
             this.groupBox1.Controls.Add(this.comboBoxHours);
             this.groupBox1.Controls.Add(this.labelAt);
-            this.groupBox1.Location = new System.Drawing.Point(9, 286);
+            this.groupBox1.Location = new System.Drawing.Point(8, 269);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(305, 70);
+            this.groupBox1.Size = new System.Drawing.Size(306, 70);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Calculations";
@@ -448,7 +449,7 @@
             this.groupBox4.Controls.Add(this.buttonFullyAutomatedTip);
             this.groupBox4.Controls.Add(this.checkBoxStartup);
             this.groupBox4.Controls.Add(this.buttonTestScreenshot);
-            this.groupBox4.Location = new System.Drawing.Point(12, 421);
+            this.groupBox4.Location = new System.Drawing.Point(12, 402);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(330, 94);
             this.groupBox4.TabIndex = 2;
@@ -520,7 +521,7 @@
             // 
             // buttonStartCapture
             // 
-            this.buttonStartCapture.Location = new System.Drawing.Point(12, 518);
+            this.buttonStartCapture.Location = new System.Drawing.Point(12, 502);
             this.buttonStartCapture.Name = "buttonStartCapture";
             this.buttonStartCapture.Size = new System.Drawing.Size(167, 23);
             this.buttonStartCapture.TabIndex = 3;
@@ -530,7 +531,7 @@
             // 
             // buttonForceCapture
             // 
-            this.buttonForceCapture.Location = new System.Drawing.Point(185, 518);
+            this.buttonForceCapture.Location = new System.Drawing.Point(185, 502);
             this.buttonForceCapture.Name = "buttonForceCapture";
             this.buttonForceCapture.Size = new System.Drawing.Size(157, 23);
             this.buttonForceCapture.TabIndex = 4;
@@ -542,18 +543,30 @@
             // 
             this.pictureBoxProgress.BackColor = System.Drawing.SystemColors.ControlLight;
             this.pictureBoxProgress.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pictureBoxProgress.Location = new System.Drawing.Point(12, 547);
+            this.pictureBoxProgress.Location = new System.Drawing.Point(12, 531);
             this.pictureBoxProgress.Name = "pictureBoxProgress";
             this.pictureBoxProgress.Size = new System.Drawing.Size(330, 20);
             this.pictureBoxProgress.TabIndex = 6;
             this.pictureBoxProgress.TabStop = false;
             this.pictureBoxProgress.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBoxProgress_Paint);
             // 
+            // labelWaiting
+            // 
+            this.labelWaiting.AutoSize = true;
+            this.labelWaiting.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.labelWaiting.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.labelWaiting.Location = new System.Drawing.Point(194, 533);
+            this.labelWaiting.Name = "labelWaiting";
+            this.labelWaiting.Size = new System.Drawing.Size(143, 15);
+            this.labelWaiting.TabIndex = 7;
+            this.labelWaiting.Text = "Waiting for GM to start...";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(354, 575);
+            this.ClientSize = new System.Drawing.Size(354, 566);
+            this.Controls.Add(this.labelWaiting);
             this.Controls.Add(this.pictureBoxProgress);
             this.Controls.Add(this.buttonForceCapture);
             this.Controls.Add(this.buttonStartCapture);
@@ -636,6 +649,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.NumericUpDown numericUpDownImageBatch;
         private System.Windows.Forms.Button buttonBatchExplanation;
+        private System.Windows.Forms.Label labelWaiting;
     }
 }
 

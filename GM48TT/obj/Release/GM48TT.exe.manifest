@@ -43,14 +43,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="GM48TT.exe" size="1167872">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="GM48TT.exe" size="1283072">
       <assemblyIdentity name="GM48TT" version="1.0.2.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>ri3wQ47w78Y5shgs2XDaDOt3MrwxtlSahAIUBcNZXCc=</dsig:DigestValue>
+        <dsig:DigestValue>DuUMhMt//VpnLAwQjr6DXwLdF8NVy11KmzmxFISopoQ=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -63,13 +63,13 @@
       <dsig:DigestValue>39/Fmmw/0W4TXsoCMv8O1Py8hsVZl3bW24D9DJTnWq0=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="GM48TT.exe.config" size="1900">
+  <file name="GM48TT.exe.config" size="1895">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>TjL+Zy/0QXM3C2apPsDo88R6MF1GTmk6fYqLKpmlTME=</dsig:DigestValue>
+      <dsig:DigestValue>fgOm9owdgjv8pma5NPKGQq0kSv9RYfSbwbe/pp8QA3g=</dsig:DigestValue>
     </hash>
   </file>
 </asmv1:assembly>

@@ -31,6 +31,8 @@ namespace GM48TT
         Timer processTimer = new Timer();
         Timer progressBarTimerDraw = new Timer();
 
+        bool trayAnnounced = false;
+
         float progressBarValue = 0;
         float progressBarTarget = 0;
         float progressBarFade = 0;
@@ -48,17 +50,6 @@ namespace GM48TT
         public MainForm()
         {
             InitializeComponent();
-
-            /*
-            ProgressBarText progressBar = new ProgressBarText()
-            {
-                Location = progressBarCapture.Location,
-                Size = progressBarCapture.Size,
-                Value = 50,
-                Visible = true
-            };
-            progressBarCapture.Visible = false;
-            */
             System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
             FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
             appVersion = fvi.FileVersion;
@@ -85,12 +76,39 @@ namespace GM48TT
             progressBarTimerDraw.Enabled = false;
             progressBarTimerDraw.Tick += ProgressBarTimerDraw_Tick;
             progressBarTimerDraw.Interval = 20;
-
+            trayMenu.MenuItems.Add("Show main window");
+            trayMenu.MenuItems.Add("Start capture");
+            trayMenu.MenuItems.Add("-");
             trayMenu.MenuItems.Add("Exit");
-            trayMenu.MenuItems[0].Click += closeApp;
+
+            trayMenu.MenuItems[0].Click += MainForm_Click;
+            trayMenu.MenuItems[1].Click += MainForm_Click1;
+            trayMenu.MenuItems[3].Click += closeApp;
             trayIcon.ContextMenu = trayMenu;
+            trayIcon.Icon = this.Icon;
 
             SetupValues();
+            labelWaiting.Visible = checkBoxAutomated.Checked;
+        }
+
+        private void MainForm_Click1(object sender, EventArgs e)
+        {
+            if (!checkBoxAutomated.Checked)
+            {
+                if (!capturing)
+                {
+                    StartCapturing();
+                }
+                else
+                {
+                    StopCapturing();
+                }
+            }
+        }
+
+        private void MainForm_Click(object sender, EventArgs e)
+        {
+            wakeUp();
         }
 
         private void ProgressBarTimerDraw_Tick(object sender, EventArgs e)
@@ -117,7 +135,7 @@ namespace GM48TT
                 {
                     if (!this.Visible)
                     {
-                        trayIcon.ShowBalloonTip(2000, "Capturing started!", "GM:S has been detected.", ToolTipIcon.Info);
+                        trayIcon.ShowBalloonTip(2000, "Capturing screenshots!", "GM:S has been detected.", ToolTipIcon.Info);
                     }
                     StartCapturing();
                 }
@@ -310,6 +328,13 @@ namespace GM48TT
                 processTimer.Interval = 1000;
                 processTimer.Enabled = true;
             }
+            updateGMWaitLabel();
+        }
+
+        void updateGMWaitLabel()
+        {
+            labelWaiting.Visible = false;
+            if (checkBoxAutomated.Checked && !capturing) labelWaiting.Visible = true;
         }
 
         //output path label updating
@@ -614,7 +639,7 @@ namespace GM48TT
             }
         }
 
-        void trayIcon_Click(object sender, EventArgs e)
+        void wakeUp()
         {
             this.Visible = true;
             this.WindowState = FormWindowState.Normal;
@@ -623,19 +648,39 @@ namespace GM48TT
             this.BringToFront();
         }
 
+        void trayIcon_Click(object sender, EventArgs e)
+        {
+            if ((((MouseEventArgs)e).Button == MouseButtons.Left && !SystemInformation.MouseButtonsSwapped) || (((MouseEventArgs)e).Button == MouseButtons.Right && SystemInformation.MouseButtonsSwapped))
+            {
+                wakeUp();
+            }
+        }
+
         private void HideToTray()
         {
+            if (checkBoxAutomated.Checked)
+            {
+                trayMenu.MenuItems[1].Visible = false;
+            }else
+            {
+                trayMenu.MenuItems[1].Visible = true;
+            }
             this.Hide();
             this.ShowInTaskbar = false;
             trayIcon.Icon = this.Icon;
+            if (capturing) trayIcon.Icon = Properties.Resources.iconCapturing;
             trayIcon.Visible = true;
             trayIcon.Click += trayIcon_Click;
-            trayIcon.ShowBalloonTip(1000, "GM48TT", "I'll be down here if you need me.", ToolTipIcon.Info);
+            if (!trayAnnounced)
+            {
+                trayIcon.ShowBalloonTip(1000, "GM48TT", "I'll be down here if you need me.", ToolTipIcon.Info);
+                trayAnnounced = true;
+            }
             /*
             TIME FOR A RANT!
 
             Okay, here's what pisses me off about Windows 10 - on 7, this looked like a cute lil' white baloon, you could put an
-            icon in it, all that stuff. Whereas on 10, it's this ugly-ass rectangle that shows half the text the original one did, 
+            icon in it, all that stuff. Whereas on 10, it's this ugly-ass rectangle that shows half the text the original one, 
             doesn't look like a speech bubble so you can't tell where's it coming from and the text formatting is all messed up!
             It basically swooshes in from the outside of the screen all like "hey guys, the only way you can tell what application
             is this coming from is by reading the heading of this notification that will disappear in one se-".
@@ -648,7 +693,8 @@ namespace GM48TT
         }
 
         private void StartCapturing()
-        {
+        {        
+            trayMenu.MenuItems[1].Text = "Stop capture";
             prefix = textBoxPrefix.Text;
             buttonTestScreenshot.Enabled = false;
             timeElapsed = 0;
@@ -659,10 +705,13 @@ namespace GM48TT
             captureTimer.Enabled = true;
             progressBarTimerDraw.Enabled = true;
             capturing = true;
+            trayIcon.Icon = Properties.Resources.iconCapturing;
+            updateGMWaitLabel();
         }
 
         private void StopCapturing()
         {
+            trayMenu.MenuItems[1].Text = "Start capture";
             ProcessImageQueue();
             buttonTestScreenshot.Enabled = true;
             progressBarTarget = 0F;
@@ -670,9 +719,20 @@ namespace GM48TT
             tabControlMain.Enabled = true;
             captureTimer.Enabled = false;
             capturing = false;
-            buttonStartCapture.Enabled = true;
-            processTimer.Interval = 1000;
-            processTimer.Enabled = false;
+
+            if (checkBoxAutomated.Checked)
+            {
+                buttonStartCapture.Enabled = false;
+                processTimer.Interval = 1000;
+                processTimer.Enabled = true;
+            }
+            else
+            {
+                buttonStartCapture.Enabled = true;
+                processTimer.Enabled = false;
+            }
+            updateGMWaitLabel();
+            trayIcon.Icon = this.Icon;
         }
         private void buttonStartCapture_Click(object sender, EventArgs e)
         {
@@ -701,9 +761,9 @@ namespace GM48TT
                     StopCapturing();
                 }
                 processTimer.Enabled = false;
-                //progressBarCapture.Value = 0;
                 buttonStartCapture.Enabled = true;
             }
+            updateGMWaitLabel();
         }
 
         private void buttonForceCapture_Click(object sender, EventArgs e)
@@ -743,6 +803,7 @@ namespace GM48TT
                 Properties.Settings.Default.batchSize = 10;
                 Properties.Settings.Default.Save();
                 SetupValues();
+                labelWaiting.Visible = checkBoxAutomated.Checked;
             }
         }
 
@@ -776,7 +837,7 @@ namespace GM48TT
 
             if (progressBarFade > .1 && numericUpDownImageBatch.Value > 1)
             {
-                var str = "Q: " + Convert.ToString(imageQueue.Count + 1);
+                var str = "Q: " + (imageQueue.Count + 1).ToString();
                 TextRenderer.DrawText(canvas, str, progressBarFont, new Point(pictureBoxProgress.Width - 5 - (int)(((TextRenderer.MeasureText(str, progressBarFont).Width)) * progressBarFade), 0), Color.Black);
             }
         }
