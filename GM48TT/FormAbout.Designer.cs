@@ -125,11 +125,11 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Calibri", 6.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label8.Location = new System.Drawing.Point(297, 100);
+            this.label8.Location = new System.Drawing.Point(311, 100);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(66, 11);
+            this.label8.Size = new System.Drawing.Size(51, 11);
             this.label8.TabIndex = 9;
-            this.label8.Text = "September 2016";
+            this.label8.Text = "12/04/2017";
             // 
             // label9
             // 
@@ -250,6 +250,7 @@
             this.Name = "FormAbout";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "About GM48TT...";
+            this.Load += new System.EventHandler(this.FormAbout_Load);
             ((System.ComponentModel.ISupportInitialize)(this.partyParrot)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);

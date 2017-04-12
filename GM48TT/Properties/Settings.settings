@@ -26,5 +26,8 @@
     <Setting Name="prefix" Type="System.String" Scope="User">
       <Value Profile="(Default)">capture</Value>
     </Setting>
+    <Setting Name="batchSize" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">10</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -1,0 +1,14 @@
+C:\Users\Jan\Dropbox\C#\GM48TT\GM48TT\bin\Release\GM48TT.exe.config
+C:\Users\Jan\Dropbox\C#\GM48TT\GM48TT\bin\Release\GM48TT.exe.manifest
+C:\Users\Jan\Dropbox\C#\GM48TT\GM48TT\bin\Release\GM48TT.application
+C:\Users\Jan\Dropbox\C#\GM48TT\GM48TT\bin\Release\GM48TT.exe
+C:\Users\Jan\Dropbox\C#\GM48TT\GM48TT\bin\Release\GM48TT.pdb
+C:\Users\Jan\Dropbox\C#\GM48TT\GM48TT\obj\Release\GM48TT.csprojResolveAssemblyReference.cache
+C:\Users\Jan\Dropbox\C#\GM48TT\GM48TT\obj\Release\GM48TT.MainForm.resources
+C:\Users\Jan\Dropbox\C#\GM48TT\GM48TT\obj\Release\GM48TT.FormAbout.resources
+C:\Users\Jan\Dropbox\C#\GM48TT\GM48TT\obj\Release\GM48TT.Properties.Resources.resources
+C:\Users\Jan\Dropbox\C#\GM48TT\GM48TT\obj\Release\GM48TT.csproj.GenerateResource.Cache
+C:\Users\Jan\Dropbox\C#\GM48TT\GM48TT\obj\Release\GM48TT.exe.manifest
+C:\Users\Jan\Dropbox\C#\GM48TT\GM48TT\obj\Release\GM48TT.application
+C:\Users\Jan\Dropbox\C#\GM48TT\GM48TT\obj\Release\GM48TT.exe
+C:\Users\Jan\Dropbox\C#\GM48TT\GM48TT\obj\Release\GM48TT.pdb

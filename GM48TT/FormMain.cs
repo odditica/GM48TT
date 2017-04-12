@@ -11,7 +11,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Diagnostics;
 
-//GM48TT 1.0.1
+//GM48TT 1.0.2
 //by @blokatt
 //blokatt.net
 
@@ -29,15 +29,40 @@ namespace GM48TT
         ContextMenu trayMenu = new ContextMenu();
         Timer captureTimer = new Timer();
         Timer processTimer = new Timer();
+        Timer progressBarTimerDraw = new Timer();
+
+        float progressBarValue = 0;
+        float progressBarTarget = 0;
+        float progressBarFade = 0;
+        Font progressBarFont = new Font("Calibri", 10);
+
         float timeElapsed = 0;
         float timeInterval = 0;
         int fileCount;
+        Queue<Bitmap> imageQueue = new Queue<Bitmap>();
         String prefix = "";
+
+        public static string appVersion = "";
 
         //constructor
         public MainForm()
         {
             InitializeComponent();
+
+            /*
+            ProgressBarText progressBar = new ProgressBarText()
+            {
+                Location = progressBarCapture.Location,
+                Size = progressBarCapture.Size,
+                Value = 50,
+                Visible = true
+            };
+            progressBarCapture.Visible = false;
+            */
+            System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
+            appVersion = fvi.FileVersion;
+            this.Text = "gm(48) Time-Lapse Tool " + appVersion;
 
             ToolTip warning = new ToolTip();
             warning.ShowAlways = true;
@@ -57,11 +82,20 @@ namespace GM48TT
             processTimer.Enabled = false;
             processTimer.Tick += processTimer_Tick;
 
+            progressBarTimerDraw.Enabled = false;
+            progressBarTimerDraw.Tick += ProgressBarTimerDraw_Tick;
+            progressBarTimerDraw.Interval = 20;
+
             trayMenu.MenuItems.Add("Exit");
             trayMenu.MenuItems[0].Click += closeApp;
             trayIcon.ContextMenu = trayMenu;
 
             SetupValues();
+        }
+
+        private void ProgressBarTimerDraw_Tick(object sender, EventArgs e)
+        {
+            pictureBoxProgress.Invalidate();
         }
 
         //GM:S detection
@@ -85,7 +119,7 @@ namespace GM48TT
                     {
                         trayIcon.ShowBalloonTip(2000, "Capturing started!", "GM:S has been detected.", ToolTipIcon.Info);
                     }
-                    startCapturing();
+                    StartCapturing();
                 }
             }
             else
@@ -96,21 +130,16 @@ namespace GM48TT
                     {
                         trayIcon.ShowBalloonTip(2000, "Capturing stopped!", "GM:S is no longer running.", ToolTipIcon.Warning);
                     }
-                    stopCapturing();
+                    StopCapturing();
                 }
 
             }
         }
 
         //pretty self-explanatory
-        private void takeScreenshot()
+        private Bitmap TakeScreenshot()
         {
-         
-            fileCount = Directory.GetFiles(OutputFolder, "*.png", SearchOption.TopDirectoryOnly).Length;
-            fileCount += Directory.GetFiles(OutputFolder, "*.jpg", SearchOption.TopDirectoryOnly).Length;
             Bitmap img = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
-            string path = OutputFolder + @"\" + prefix + "_(" + fileCount.ToString() + ")";
-
             //image buffer
             using (Graphics buffer = Graphics.FromImage(img))
             {
@@ -126,83 +155,111 @@ namespace GM48TT
                     ia.SetColorMatrix(cm);
                     buffer.DrawImage(Properties.Resources.gm48Logo, new Rectangle(0, 0, 200, 200), 0, 0, 200, 200, GraphicsUnit.Pixel, ia); //this took a while to figure out
                 }
-                
-                MemoryStream ms = new MemoryStream();
-                System.Drawing.Imaging.Encoder newEncoder = System.Drawing.Imaging.Encoder.Quality;
-                ImageCodecInfo jpgEncoder = GetEncoder(ImageFormat.Jpeg);
-                EncoderParameters encParams = new EncoderParameters();
-                EncoderParameter Quality;
-                
-                switch (ImageFileFormat) {
-                    case FILE_FORMAT_PNG:
-                        path += ".png";  
-                        img.Save(path, ImageFormat.Png);
-                    break;
-
-                    case FILE_FORMAT_SMART:
-                        MemoryStream pngStream = new MemoryStream();
-                    
-                        Quality = new EncoderParameter(newEncoder, 100);
-                        encParams.Param[0] = Quality;
-                        img.Save(Application.LocalUserAppDataPath + @"\tempCapture.jpg", jpgEncoder, encParams);
-                        FileStream jpgStream = File.Open(Application.LocalUserAppDataPath + @"\tempCapture.jpg", FileMode.Open);
-
-            
-                        img.Save(pngStream, ImageFormat.Png);
-
-                        if (pngStream.Length <= jpgStream.Length)
-                        {
-                            path += ".png";
-                            img.Save(path, ImageFormat.Png);
-                        }
-                        else
-                        {
-                            path += ".jpg";
-                            img.Save(path, jpgEncoder, encParams);
-                        }
-
-                        jpgStream.Dispose();
-                        pngStream.Dispose();
-
-                        try{
-                            File.Delete(Application.LocalUserAppDataPath + @"\tempCapture.jpg");
-                        }
-                        catch {
-                            //don't tell mum
-                        }
-                    break;
-
-                    case FILE_FORMAT_JPG:
-                        Quality = new EncoderParameter(newEncoder, (int)trackBarJPGQuality.Value);
-                        encParams.Param[0] = Quality;
-                        path += ".jpg";   
-                        img.Save(path, jpgEncoder, encParams);
-                        
-                    break;
-                    default: break;
-                }
-
-                img.Dispose();
-                encParams.Dispose();
-                Quality = null;
-                jpgEncoder = null;
-                newEncoder = null;
+                return img;
             }
+
             
         }
-        
+       
 
         //capture timer
         void captureTimer_Tick(object sender, EventArgs e)
         {
             timeElapsed += captureTimer.Interval;
-            progressBarCapture.Value = Math.Min(100, (int)(((timeElapsed / (timeInterval * 1000)) * 100)));
+            progressBarTarget = (timeElapsed / (timeInterval * 1000 + 1));
             if (timeElapsed >= timeInterval * 1000)
             {
+                progressBarValue = 0;
+                progressBarTarget = 0;
+                
                 timeElapsed = 0;
-                takeScreenshot();
+                imageQueue.Enqueue(TakeScreenshot());
+
+                //process queue
+                if (imageQueue.Count > numericUpDownImageBatch.Value - 1)
+                {
+                    ProcessImageQueue();
+                }
             }
         }
+
+        void ProcessImageQueue()
+        {
+            while (imageQueue.Count > 0)
+            {
+                SaveImage(imageQueue.Dequeue());
+            }
+        }
+
+       
+
+        void SaveImage(Bitmap image)
+        {
+            fileCount = Directory.GetFiles(OutputFolder, "*.png", SearchOption.TopDirectoryOnly).Length;
+            fileCount += Directory.GetFiles(OutputFolder, "*.jpg", SearchOption.TopDirectoryOnly).Length;
+            string path = OutputFolder + @"\" + prefix + "_(" + fileCount.ToString() + ")";
+            MemoryStream ms = new MemoryStream();
+            System.Drawing.Imaging.Encoder newEncoder = System.Drawing.Imaging.Encoder.Quality;
+            ImageCodecInfo jpgEncoder = GetEncoder(ImageFormat.Jpeg);
+            EncoderParameters encParams = new EncoderParameters();
+            EncoderParameter Quality;
+
+            switch (ImageFileFormat)
+            {
+                case FILE_FORMAT_PNG:
+                    path += ".png";
+                    image.Save(path, ImageFormat.Png);
+                    break;
+
+                case FILE_FORMAT_SMART:
+                    MemoryStream pngStream = new MemoryStream();
+
+                    Quality = new EncoderParameter(newEncoder, 100);
+                    encParams.Param[0] = Quality;
+                    image.Save(Application.LocalUserAppDataPath + @"\tempCapture.jpg", jpgEncoder, encParams);
+                    FileStream jpgStream = File.Open(Application.LocalUserAppDataPath + @"\tempCapture.jpg", FileMode.Open);
+
+
+                    image.Save(pngStream, ImageFormat.Png);
+
+                    if (pngStream.Length <= jpgStream.Length)
+                    {
+                        path += ".png";
+                        image.Save(path, ImageFormat.Png);
+                    }
+                    else
+                    {
+                        path += ".jpg";
+                        image.Save(path, jpgEncoder, encParams);
+                    }
+
+                    jpgStream.Dispose();
+                    pngStream.Dispose();
+
+                    try
+                    {
+                        File.Delete(Application.LocalUserAppDataPath + @"\tempCapture.jpg");
+                    }
+                    catch
+                    {
+                        //don't tell mum
+                    }
+                    break;
+
+                case FILE_FORMAT_JPG:
+                    Quality = new EncoderParameter(newEncoder, (int)trackBarJPGQuality.Value);
+                    encParams.Param[0] = Quality;
+                    path += ".jpg";
+                    image.Save(path, jpgEncoder, encParams);
+                    break;
+                default: break;
+            }
+            encParams.Dispose();
+            Quality = null;
+            jpgEncoder = null;
+            newEncoder = null;
+        }
+
 
         #region ui_stuff
 
@@ -224,6 +281,8 @@ namespace GM48TT
             numericUpDownInterval.Value = Properties.Settings.Default.captureInterval;
 
             ImageFileFormat = Properties.Settings.Default.imageFormat;
+
+            numericUpDownImageBatch.Value = Properties.Settings.Default.batchSize;
 
             switch (ImageFileFormat)
             {
@@ -516,6 +575,7 @@ namespace GM48TT
 
             if (!e.Cancel)
             {
+                ProcessImageQueue();
                 Properties.Settings.Default.outputFolder = OutputFolder;
                 Properties.Settings.Default.startOnStartup = checkBoxStartup.Checked;
                 Properties.Settings.Default.autoCapture = checkBoxAutomated.Checked;
@@ -524,6 +584,7 @@ namespace GM48TT
                 Properties.Settings.Default.imageFormat = ImageFileFormat;
                 Properties.Settings.Default.logoStamp = checkBoxStampLogo.Checked;
                 Properties.Settings.Default.prefix = textBoxPrefix.Text;
+                Properties.Settings.Default.batchSize = (int)numericUpDownImageBatch.Value;
                 Properties.Settings.Default.Save();
                 trayIcon.Visible = false;
                 trayIcon.Icon = null;
@@ -586,7 +647,7 @@ namespace GM48TT
             */
         }
 
-        private void startCapturing()
+        private void StartCapturing()
         {
             prefix = textBoxPrefix.Text;
             buttonTestScreenshot.Enabled = false;
@@ -596,14 +657,15 @@ namespace GM48TT
             tabControlMain.Enabled = false;
             captureTimer.Interval = (int)Math.Round((timeInterval * 100), 0);
             captureTimer.Enabled = true;
+            progressBarTimerDraw.Enabled = true;
             capturing = true;
         }
 
-        private void stopCapturing()
+        private void StopCapturing()
         {
-
+            ProcessImageQueue();
             buttonTestScreenshot.Enabled = true;
-            progressBarCapture.Value = 0;
+            progressBarTarget = 0F;
             buttonStartCapture.Text = "Start capture";
             tabControlMain.Enabled = true;
             captureTimer.Enabled = false;
@@ -616,11 +678,11 @@ namespace GM48TT
         {
             if (!capturing)
             {
-                startCapturing();
+                StartCapturing();
             }
             else
             {
-                stopCapturing();
+                StopCapturing();
             }
         }
 
@@ -636,10 +698,10 @@ namespace GM48TT
             {
                 if (capturing)
                 {
-                    stopCapturing();
+                    StopCapturing();
                 }
                 processTimer.Enabled = false;
-                progressBarCapture.Value = 0;
+                //progressBarCapture.Value = 0;
                 buttonStartCapture.Enabled = true;
             }
         }
@@ -648,7 +710,7 @@ namespace GM48TT
         {
             char[] invalidFileNameChars = Path.GetInvalidFileNameChars();
             prefix = textBoxPrefix.Text;
-            takeScreenshot();
+            SaveImage(TakeScreenshot());
         }
 
         private void textBoxPrefix_TextChanged(object sender, EventArgs e)
@@ -678,6 +740,7 @@ namespace GM48TT
                 Properties.Settings.Default.imageFormat = 0;
                 Properties.Settings.Default.logoStamp = true;
                 Properties.Settings.Default.prefix = "capture";
+                Properties.Settings.Default.batchSize = 10;
                 Properties.Settings.Default.Save();
                 SetupValues();
             }
@@ -694,5 +757,33 @@ namespace GM48TT
         }
 
         #endregion
+
+        private void pictureBoxProgress_Paint(object sender, PaintEventArgs e)
+        {
+            Graphics canvas = e.Graphics;
+            progressBarValue += (progressBarTarget - progressBarValue) * 0.2F;
+            if (capturing)
+            {
+                progressBarFade += (1 - progressBarFade) * .1F;
+            }
+            else
+            {
+                progressBarFade += (0 - progressBarFade) * .1F;
+            }
+            canvas.FillRectangle(new SolidBrush(Color.FromArgb(255, 154, 205 + (int)(progressBarValue * 20), 50 + (int)(progressBarValue * 80))), 0, 0, this.Width * progressBarValue, this.Height);
+            canvas.FillRectangle(new SolidBrush(Color.FromArgb(255, 164, 215 + (int)(progressBarValue * 20), 60 + (int)(progressBarValue * 80))), 0, 0, this.Width * progressBarValue, 8);
+            canvas.FillRectangle(new SolidBrush(Color.FromArgb(255, 174, 225 + (int)(progressBarValue * 20), 70 + (int)(progressBarValue * 80))), 0, 2, this.Width * progressBarValue, 4);
+
+            if (progressBarFade > .1 && numericUpDownImageBatch.Value > 1)
+            {
+                var str = "Q: " + Convert.ToString(imageQueue.Count + 1);
+                TextRenderer.DrawText(canvas, str, progressBarFont, new Point(pictureBoxProgress.Width - 5 - (int)(((TextRenderer.MeasureText(str, progressBarFont).Width)) * progressBarFade), 0), Color.Black);
+            }
+        }
+
+        private void buttonBatchExplanation_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Higher number - Less frequent disk accesss, more RAM usage\nLower number - Frequent disk access, less RAM usage", "Huh?", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
     }
 }

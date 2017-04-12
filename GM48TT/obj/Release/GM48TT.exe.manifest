@@ -43,14 +43,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="GM48TT.exe" size="1168896">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="GM48TT.exe" size="1167872">
       <assemblyIdentity name="GM48TT" version="1.0.2.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>nb8LJhRUF5vfKKHjB/cOeQFj1wLo8vppngjd1m7KBtM=</dsig:DigestValue>
+        <dsig:DigestValue>ri3wQ47w78Y5shgs2XDaDOt3MrwxtlSahAIUBcNZXCc=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

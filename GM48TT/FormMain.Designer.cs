@@ -33,6 +33,10 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.buttonBatchExplanation = new System.Windows.Forms.Button();
+            this.label7 = new System.Windows.Forms.Label();
+            this.numericUpDownImageBatch = new System.Windows.Forms.NumericUpDown();
+            this.label6 = new System.Windows.Forms.Label();
             this.textBoxPrefix = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.buttonOpenOutput = new System.Windows.Forms.Button();
@@ -64,12 +68,13 @@
             this.checkBoxStartup = new System.Windows.Forms.CheckBox();
             this.buttonTestScreenshot = new System.Windows.Forms.Button();
             this.buttonStartCapture = new System.Windows.Forms.Button();
-            this.progressBarCapture = new System.Windows.Forms.ProgressBar();
             this.buttonForceCapture = new System.Windows.Forms.Button();
+            this.pictureBoxProgress = new System.Windows.Forms.PictureBox();
             this.tabControlMain.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownImageBatch)).BeginInit();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarJPGQuality)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -77,6 +82,7 @@
             this.menuStrip1.SuspendLayout();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProgress)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControlMain
@@ -85,7 +91,7 @@
             this.tabControlMain.Location = new System.Drawing.Point(12, 27);
             this.tabControlMain.Name = "tabControlMain";
             this.tabControlMain.SelectedIndex = 0;
-            this.tabControlMain.Size = new System.Drawing.Size(330, 354);
+            this.tabControlMain.Size = new System.Drawing.Size(330, 388);
             this.tabControlMain.TabIndex = 1;
             // 
             // tabPage2
@@ -98,7 +104,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(322, 328);
+            this.tabPage2.Size = new System.Drawing.Size(322, 362);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Capturing";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -109,13 +115,17 @@
             this.groupBox2.Controls.Add(this.groupBox3);
             this.groupBox2.Location = new System.Drawing.Point(8, 36);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(306, 202);
+            this.groupBox2.Size = new System.Drawing.Size(306, 227);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Output";
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.buttonBatchExplanation);
+            this.groupBox5.Controls.Add(this.label7);
+            this.groupBox5.Controls.Add(this.numericUpDownImageBatch);
+            this.groupBox5.Controls.Add(this.label6);
             this.groupBox5.Controls.Add(this.textBoxPrefix);
             this.groupBox5.Controls.Add(this.label5);
             this.groupBox5.Controls.Add(this.buttonOpenOutput);
@@ -124,10 +134,60 @@
             this.groupBox5.Controls.Add(this.buttonBrowseOutput);
             this.groupBox5.Location = new System.Drawing.Point(6, 19);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(292, 71);
+            this.groupBox5.Size = new System.Drawing.Size(292, 98);
             this.groupBox5.TabIndex = 0;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Destination";
+            // 
+            // buttonBatchExplanation
+            // 
+            this.buttonBatchExplanation.Location = new System.Drawing.Point(201, 72);
+            this.buttonBatchExplanation.Name = "buttonBatchExplanation";
+            this.buttonBatchExplanation.Size = new System.Drawing.Size(85, 21);
+            this.buttonBatchExplanation.TabIndex = 9;
+            this.buttonBatchExplanation.Text = "<-- what\'s that do?";
+            this.buttonBatchExplanation.UseVisualStyleBackColor = true;
+            this.buttonBatchExplanation.Click += new System.EventHandler(this.buttonBatchExplanation_Click);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(154, 76);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(43, 13);
+            this.label7.TabIndex = 8;
+            this.label7.Text = "images.";
+            // 
+            // numericUpDownImageBatch
+            // 
+            this.numericUpDownImageBatch.Location = new System.Drawing.Point(107, 73);
+            this.numericUpDownImageBatch.Maximum = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            this.numericUpDownImageBatch.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDownImageBatch.Name = "numericUpDownImageBatch";
+            this.numericUpDownImageBatch.Size = new System.Drawing.Size(45, 20);
+            this.numericUpDownImageBatch.TabIndex = 7;
+            this.numericUpDownImageBatch.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(6, 75);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(102, 13);
+            this.label6.TabIndex = 6;
+            this.label6.Text = "Write in batch every";
             // 
             // textBoxPrefix
             // 
@@ -192,7 +252,7 @@
             this.groupBox3.Controls.Add(this.radioButtonJPG);
             this.groupBox3.Controls.Add(this.radioButtonPNG);
             this.groupBox3.Controls.Add(this.radioButtonSmart);
-            this.groupBox3.Location = new System.Drawing.Point(6, 96);
+            this.groupBox3.Location = new System.Drawing.Point(7, 123);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(294, 98);
             this.groupBox3.TabIndex = 1;
@@ -261,9 +321,9 @@
             this.groupBox1.Controls.Add(this.buttonEstimate);
             this.groupBox1.Controls.Add(this.comboBoxHours);
             this.groupBox1.Controls.Add(this.labelAt);
-            this.groupBox1.Location = new System.Drawing.Point(8, 244);
+            this.groupBox1.Location = new System.Drawing.Point(9, 286);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(298, 70);
+            this.groupBox1.Size = new System.Drawing.Size(305, 70);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Calculations";
@@ -388,7 +448,7 @@
             this.groupBox4.Controls.Add(this.buttonFullyAutomatedTip);
             this.groupBox4.Controls.Add(this.checkBoxStartup);
             this.groupBox4.Controls.Add(this.buttonTestScreenshot);
-            this.groupBox4.Location = new System.Drawing.Point(12, 387);
+            this.groupBox4.Location = new System.Drawing.Point(12, 421);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(330, 94);
             this.groupBox4.TabIndex = 2;
@@ -460,7 +520,7 @@
             // 
             // buttonStartCapture
             // 
-            this.buttonStartCapture.Location = new System.Drawing.Point(12, 484);
+            this.buttonStartCapture.Location = new System.Drawing.Point(12, 518);
             this.buttonStartCapture.Name = "buttonStartCapture";
             this.buttonStartCapture.Size = new System.Drawing.Size(167, 23);
             this.buttonStartCapture.TabIndex = 3;
@@ -468,17 +528,9 @@
             this.buttonStartCapture.UseVisualStyleBackColor = true;
             this.buttonStartCapture.Click += new System.EventHandler(this.buttonStartCapture_Click);
             // 
-            // progressBarCapture
-            // 
-            this.progressBarCapture.Location = new System.Drawing.Point(12, 513);
-            this.progressBarCapture.Name = "progressBarCapture";
-            this.progressBarCapture.Size = new System.Drawing.Size(330, 23);
-            this.progressBarCapture.Step = 0;
-            this.progressBarCapture.TabIndex = 5;
-            // 
             // buttonForceCapture
             // 
-            this.buttonForceCapture.Location = new System.Drawing.Point(185, 484);
+            this.buttonForceCapture.Location = new System.Drawing.Point(185, 518);
             this.buttonForceCapture.Name = "buttonForceCapture";
             this.buttonForceCapture.Size = new System.Drawing.Size(157, 23);
             this.buttonForceCapture.TabIndex = 4;
@@ -486,13 +538,24 @@
             this.buttonForceCapture.UseVisualStyleBackColor = true;
             this.buttonForceCapture.Click += new System.EventHandler(this.buttonForceCapture_Click);
             // 
+            // pictureBoxProgress
+            // 
+            this.pictureBoxProgress.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.pictureBoxProgress.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pictureBoxProgress.Location = new System.Drawing.Point(12, 547);
+            this.pictureBoxProgress.Name = "pictureBoxProgress";
+            this.pictureBoxProgress.Size = new System.Drawing.Size(330, 20);
+            this.pictureBoxProgress.TabIndex = 6;
+            this.pictureBoxProgress.TabStop = false;
+            this.pictureBoxProgress.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBoxProgress_Paint);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(354, 544);
+            this.ClientSize = new System.Drawing.Size(354, 575);
+            this.Controls.Add(this.pictureBoxProgress);
             this.Controls.Add(this.buttonForceCapture);
-            this.Controls.Add(this.progressBarCapture);
             this.Controls.Add(this.buttonStartCapture);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.tabControlMain);
@@ -503,7 +566,7 @@
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "gm(48) Time-Lapse Tool 1.0.1";
+            this.Text = "caption";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Resize += new System.EventHandler(this.MainForm_Resize);
             this.tabControlMain.ResumeLayout(false);
@@ -512,6 +575,7 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownImageBatch)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarJPGQuality)).EndInit();
@@ -523,6 +587,7 @@
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProgress)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -559,7 +624,6 @@
         private System.Windows.Forms.Button buttonOpenOutput;
         private System.Windows.Forms.Button buttonFullyAutomatedTip;
         private System.Windows.Forms.Button buttonStartCapture;
-        private System.Windows.Forms.ProgressBar progressBarCapture;
         private System.Windows.Forms.CheckBox checkBoxAutomated;
         private System.Windows.Forms.Button buttonForceCapture;
         private System.Windows.Forms.PictureBox pictureBox1;
@@ -567,6 +631,11 @@
         private System.Windows.Forms.TextBox textBoxPrefix;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ToolStripMenuItem resetSettingsToolStripMenuItem1;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.PictureBox pictureBoxProgress;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.NumericUpDown numericUpDownImageBatch;
+        private System.Windows.Forms.Button buttonBatchExplanation;
     }
 }
 

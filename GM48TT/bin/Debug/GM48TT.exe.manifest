@@ -4,7 +4,7 @@
   <description asmv2:iconFile="cameraIcon5.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="GM48TT" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+    <assemblyIdentity name="GM48TT" version="1.0.2.0" language="neutral" processorArchitecture="msil" />
     <commandLine file="GM48TT.exe" parameters="" />
   </entryPoint>
   <trustInfo>
@@ -43,14 +43,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="GM48TT.exe" size="1166744">
-      <assemblyIdentity name="GM48TT" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="GM48TT.exe" size="1168896">
+      <assemblyIdentity name="GM48TT" version="1.0.2.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>04KemAulfnonrd4MyaRXjFnxBzKkfAgbnx+qsE3P+00=</dsig:DigestValue>
+        <dsig:DigestValue>6RZ07vxQOKPeuMDseVGJmIFjFalwHncV1W+2h7dS7vE=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -63,13 +63,13 @@
       <dsig:DigestValue>39/Fmmw/0W4TXsoCMv8O1Py8hsVZl3bW24D9DJTnWq0=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="GM48TT.exe.config" size="1780">
+  <file name="GM48TT.exe.config" size="1900">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>S6/iIHQxkwEXNwzzWfQw4FEng+rz4QvPyg5em/k1B5Y=</dsig:DigestValue>
+      <dsig:DigestValue>TjL+Zy/0QXM3C2apPsDo88R6MF1GTmk6fYqLKpmlTME=</dsig:DigestValue>
     </hash>
   </file>
 </asmv1:assembly>

@@ -46,5 +46,10 @@ namespace GM48TT
         {
             System.Diagnostics.Process.Start("http://cultofthepartyparrot.com/");
         }
+
+        private void FormAbout_Load(object sender, EventArgs e)
+        {
+            label1.Text = "GM48TT " + MainForm.appVersion;
+        }
     }
 }
