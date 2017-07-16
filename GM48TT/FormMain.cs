@@ -11,7 +11,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Diagnostics;
 
-//GM48TT 1.0.2
+//GM48TT 1.0.3
 //by @blokatt
 //blokatt.net
 
