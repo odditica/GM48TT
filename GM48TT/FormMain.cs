@@ -209,14 +209,23 @@ namespace GM48TT
             }
         }
 
-       
+        string GetScreenshotFileName()
+        {
+            return prefix + "_(" + fileCount.ToString() + ")";
+        }
+
+        string GetScreenshotFilePath()
+        {
+            return OutputFolder + @"\" + GetScreenshotFileName();
+        }
 
         void SaveImage(Bitmap image)
         {
             fileCount = Directory.GetFiles(OutputFolder, "*.png", SearchOption.TopDirectoryOnly).Length;
             fileCount += Directory.GetFiles(OutputFolder, "*.jpg", SearchOption.TopDirectoryOnly).Length;
-            string path = OutputFolder + @"\" + prefix + "_(" + fileCount.ToString() + ")";
-            MemoryStream ms = new MemoryStream();
+            string path;
+            while (Directory.GetFiles(OutputFolder, GetScreenshotFileName() + ".*").Length > 0) { fileCount++; } //if we already have a screenshot of this name, increase index
+
             System.Drawing.Imaging.Encoder newEncoder = System.Drawing.Imaging.Encoder.Quality;
             ImageCodecInfo jpgEncoder = GetEncoder(ImageFormat.Jpeg);
             EncoderParameters encParams = new EncoderParameters();
@@ -225,14 +234,14 @@ namespace GM48TT
             switch (ImageFileFormat)
             {
                 case FILE_FORMAT_PNG:
-                    path += ".png";
+                    path = GetScreenshotFilePath() + ".png";
                     image.Save(path, ImageFormat.Png);
                     break;
 
                 case FILE_FORMAT_SMART:
                     MemoryStream pngStream = new MemoryStream();
 
-                    Quality = new EncoderParameter(newEncoder, 100);
+                    Quality = new EncoderParameter(newEncoder, 100L);
                     encParams.Param[0] = Quality;
                     image.Save(Application.LocalUserAppDataPath + @"\tempCapture.jpg", jpgEncoder, encParams);
                     FileStream jpgStream = File.Open(Application.LocalUserAppDataPath + @"\tempCapture.jpg", FileMode.Open);
@@ -242,12 +251,12 @@ namespace GM48TT
 
                     if (pngStream.Length <= jpgStream.Length)
                     {
-                        path += ".png";
+                        path = GetScreenshotFilePath() + ".png";
                         image.Save(path, ImageFormat.Png);
                     }
                     else
                     {
-                        path += ".jpg";
+                        path = GetScreenshotFilePath() + ".jpg";
                         image.Save(path, jpgEncoder, encParams);
                     }
 
@@ -267,7 +276,7 @@ namespace GM48TT
                 case FILE_FORMAT_JPG:
                     Quality = new EncoderParameter(newEncoder, (int)trackBarJPGQuality.Value);
                     encParams.Param[0] = Quality;
-                    path += ".jpg";
+                    path = GetScreenshotFilePath() + ".jpg";
                     image.Save(path, jpgEncoder, encParams);
                     break;
                 default: break;
