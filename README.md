@@ -11,4 +11,4 @@ Made for the gm(48) game jam community - http://gm48.net/
 ![Screenshot](http://dl.blokatt.net/img/gm48tt/scr_1_0_2.png)
 
 # Download?
-[Check the releases!](https://github.com/Blokatt/GM48TT/releases)
+Get it on [itch.io](https://blokatt.itch.io/gm48tt) or [Check the releases!](https://github.com/Blokatt/GM48TT/releases)
